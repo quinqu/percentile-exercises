@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 )
 
@@ -21,7 +22,12 @@ func main() {
 	var seed int64 = 1
 	rand := rand.New(rand.NewSource(seed))
 	var f percentile
-	// f = your function
+	f = func(data []uint) uint {
+		length := len(data)
+		n := .9 * float32(length)
+		index := uint(math.Ceil(float64(n)))
+		return data[index]
+	}
 	data := createData(rand, 10000)
 	p90 := f(data)
 	fmt.Println(p90)
