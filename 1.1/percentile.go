@@ -1,15 +1,15 @@
 package main
 
-import(
-	"math/rand"
+import (
 	"fmt"
-	"math"
+	"math/rand"
 )
 
+// createData creates unordered data spanning the range 0-n
 func createData(rand *rand.Rand, n uint) []uint {
 	data := make([]uint, n)
 	for i := uint(0); i < n; i++ {
-			data[i] = i
+		data[i] = i
 	}
 	rand.Shuffle(int(n), func(i, j int) { data[i], data[j] = data[j], data[i] })
 	return data
@@ -17,33 +17,12 @@ func createData(rand *rand.Rand, n uint) []uint {
 
 type percentile func([]uint) uint
 
-
-
 func main() {
 	var seed int64 = 1
 	rand := rand.New(rand.NewSource(seed))
 	var f percentile
-	// Time: O(1)
-	// Space: O(1)
-	f = func(data []uint) uint{
-		length := len(data)
-		n := .9 * float32(length)
-		index := uint(math.Ceil(float64(n)))
-		return data[index]
-	}
+	// f = your function
 	data := createData(rand, 10000)
 	p90 := f(data)
 	fmt.Println(p90)
-}
-
-
-
-func generatePercentileFunction(x float32) percentile{
-	f := func(data []uint) uint {
-		length := len(data)
-		n := x * float32(length)
-		index := uint(math.Ceil(float64(n)))
-		return data[index]
-	}
-	return f
 }
