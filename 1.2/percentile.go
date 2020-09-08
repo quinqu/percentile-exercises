@@ -1,3 +1,4 @@
+package main
 
 import (
 	"fmt"
@@ -20,7 +21,7 @@ func main() {
 	var seed int64 = 1
 	rand := rand.New(rand.NewSource(seed))
 	var f percentile
-	x := 30
+	x := float32(0.3)
 	f = generatePercentileFunction(x)
 	data := createData(rand, 10000)
 	p90 := f(data)
@@ -29,6 +30,11 @@ func main() {
 
 func generatePercentileFunction(x float32) percentile {
 	f := func(data []uint) uint {
+		if x == 1.0 {
+			return data[len(data)-1]
+		} else if x == 0.0 {
+			return data[0]
+		}
 		length := len(data)
 		n := x * float32(length)
 		index := uint(math.Ceil(float64(n)))
@@ -36,6 +42,3 @@ func generatePercentileFunction(x float32) percentile {
 	}
 	return f
 }
-
-
-
