@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math"
 	"math/rand"
 )
@@ -18,14 +17,7 @@ func createData(rand *rand.Rand, n uint) []uint {
 type percentile func([]uint) uint
 
 func main() {
-	var seed int64 = 1
-	rand := rand.New(rand.NewSource(seed))
-	var f percentile
-	x := float32(0.3)
-	f = generatePercentileFunction(x)
-	data := createData(rand, 10000)
-	p90 := f(data)
-	fmt.Println(p90)
+
 }
 
 func generatePercentileFunction(x float32) percentile {
