@@ -19,8 +19,8 @@ func TestGeneratePercentile(t *testing.T) {
 	data := []uint{15, 20, 35, 40, 50}
 	for _, test := range tests {
 		t.Run(fmt.Sprintf("PASS"), func(t *testing.T) {
-			if test.fn(data) != test.p {
-				t.Errorf("Fail expected: %v, actual: %v", test.p, test.fn(data))
+			if output, _ := test.fn(data); output != test.p {
+				t.Errorf("Fail expected: %v", test.p)
 			}
 		})
 	}
@@ -39,9 +39,20 @@ func TestGeneratePercentileTwo(t *testing.T) {
 	data := []uint{3, 6, 7, 8, 8, 9, 10, 13, 15, 16, 20}
 	for _, test := range tests {
 		t.Run(fmt.Sprintf("PASS"), func(t *testing.T) {
-			if test.fn(data) != test.p {
-				t.Errorf("Fail expected: %v, actual: %v", test.p, test.fn(data))
+			if output, _ := test.fn(data); output != test.p {
+				t.Errorf("Fail expected: %v", test.p)
 			}
 		})
+	}
+}
+
+func TestGenerateInvalidInput(t *testing.T) {
+	var fn percentile
+	fn = generatePercentileFunction(1.1)
+	data := []uint{3, 9, 10, 13, 15, 16, 20}
+
+	if _, err := fn(data); err == nil {
+		t.Error("Expected error")
+
 	}
 }
