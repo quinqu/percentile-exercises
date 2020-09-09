@@ -16,9 +16,9 @@ Read https://en.wikipedia.org/wiki/Percentile through the section on the  “The
     - 100,000
 0.3 Given a large unknown dataset, what is the probability that one randomly selected measure exceeds the 99th percentile? What is the probability that at least one measure in a sample of 50 that exceeds the 99th percentile of the dataset?
 
-    - 0.5%
-    - 1%
+    - .01
+    - ~.395
 
 0.4 Given a large unknown dataset, how many measures are needed to have a .5 probability of having 1 or more measures exceed the 99.9th percentile?
 
-    - 1,000
+    - ~693 (rounded up)
