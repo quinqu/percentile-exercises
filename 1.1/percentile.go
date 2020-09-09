@@ -19,9 +19,10 @@ func createData(rand *rand.Rand, n uint) []uint {
 
 type percentile func([]uint) uint
 type seedData []uint
-func (a seedData) Len() int           { return len(a) }
 
-func (a seedData) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a seedData) Len() int { return len(a) }
+
+func (a seedData) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
 
 func (a seedData) Less(i, j int) bool { return a[i] < a[j] }
 
@@ -38,6 +39,5 @@ func main() {
 	data := seedData(createData(rand, 10000))
 	sort.Sort(data)
 	p90 := f(data)
-	fmt.Print(data)
 	fmt.Println(p90)
 }
