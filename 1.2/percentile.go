@@ -10,7 +10,7 @@ type percentile func([]uint) uint
 
 func generatePercentile(x float32) (percentile, error) {
 	if x > 1.0 || x < 0.0 {
-		return nil, errors.New("input out of range")
+		return nil, errors.New("generatePercentile: %q out of range 0 <= x <= 1")
 	}
 
 	f := func(data []uint) uint {

@@ -22,9 +22,9 @@ func TestGeneratePercentile(t *testing.T) {
 	for _, test := range tests {
 		t.Run(fmt.Sprintf("PASS"), func(t *testing.T) {
 			if output, err := generatePercentile(test.input); err != nil {
-				t.Errorf("Got error, exprected no error")
+				t.Errorf("expected no error, got: %v", err)
 			} else if output(data) != test.p {
-				t.Errorf("Fail expected: %v", test.p)
+				t.Errorf("Fail expected: %v, got: %v", test.p, output)
 
 			}
 		})
@@ -45,10 +45,9 @@ func TestGeneratePercentileSecond(t *testing.T) {
 	for _, test := range tests {
 		t.Run(fmt.Sprintf("PASS"), func(t *testing.T) {
 			if output, err := generatePercentile(test.input); err != nil {
-				t.Errorf("Got error, exprected no error")
+				t.Errorf("expected no error, got: %v", err)
 			} else if output(data) != test.p {
-				t.Errorf("Fail expected: %v", test.p)
-
+				t.Errorf("Fail expected: %v, got: %v", test.p, output)
 			}
 		})
 	}
