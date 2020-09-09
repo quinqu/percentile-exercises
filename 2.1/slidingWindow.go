@@ -46,16 +46,16 @@ func (r *R) GetPercentile() uint {
 	var index uint
 
 	length := uint(len(r.data))
-	if length >= r.window {
-		n = r.percentile * float32(len(r.data[(length-1-r.window):]))
-	} else {
-		n = r.percentile * float32(len(r.data))
+	offset := length - 1 - r.window
+
+	if length <= r.window {
+		offset = 0
 	}
+	n = r.percentile * float32(len(r.data[offset:]))
 	index = uint(math.Ceil(float64(n)))
-	return r.data[index-1]
+
+	return r.data[offset+index-1]
 }
-
-
 
 func createData(rand *rand.Rand, n uint) []uint {
 	data := make([]uint, n)
