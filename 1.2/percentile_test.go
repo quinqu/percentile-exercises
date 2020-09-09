@@ -2,6 +2,7 @@ package percentile
 
 import (
 	"fmt"
+	"log"
 	"testing"
 )
 
@@ -21,10 +22,9 @@ func TestGeneratePercentile(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(fmt.Sprintf("PASS"), func(t *testing.T) {
-			if output, err := generatePercentile(test.input); err != nil {
-				t.Errorf("expected no error, got: %v", err)
-			} else if output(data) != test.p {
-				t.Errorf("Fail expected: %v, got: %v", test.p, output)
+			if output := Must(generatePercentile, test.input); output(data) != test.p {
+
+				t.Errorf("Fail expected: %v, got: %v", test.p, output(data))
 
 			}
 		})
@@ -44,10 +44,8 @@ func TestGeneratePercentileSecond(t *testing.T) {
 	data := []uint{16, 6, 7, 8, 8, 10, 13, 15, 3, 20}
 	for _, test := range tests {
 		t.Run(fmt.Sprintf("PASS"), func(t *testing.T) {
-			if output, err := generatePercentile(test.input); err != nil {
-				t.Errorf("expected no error, got: %v", err)
-			} else if output(data) != test.p {
-				t.Errorf("Fail expected: %v, got: %v", test.p, output)
+			if output := Must(generatePercentile, test.input); output(data) != test.p {
+				t.Errorf("Fail expected: %v, got: %v", test.p, output(data))
 			}
 		})
 	}
@@ -60,4 +58,12 @@ func TestGenerateInvalidInput(t *testing.T) {
 		t.Error("Expected error")
 
 	}
+}
+
+func Must(fn func(float32) (percentile, error), x float32) percentile {
+	v, err := fn(x)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return v
 }
