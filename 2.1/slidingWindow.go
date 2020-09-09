@@ -32,7 +32,7 @@ func (a seedData) Less(i, j int) bool { return a[i] < a[j] }
 // window is the number of data points to keep before letting the oldest fall out of scope
 func NewWindowedPercentileCalculator(x float32, window uint) (PercentileCalculator, error) {
 	if x > 1.0 || x < 0.0 {
-		return nil, errors.New("input out of range")
+		return nil, errors.New("generatePercentile: %q out of range 0 <= x <= 1")
 	}
 	return &R{percentile: x, window: window}, nil
 }
