@@ -1,4 +1,4 @@
-package main
+package percentile
 
 import (
 	"errors"
@@ -35,7 +35,7 @@ func generatePercentileFunction(x float32) percentile {
 		length := len(data)
 		n := x * float32(length)
 		index := uint(math.Ceil(float64(n)))
-		return data[index], nil
+		return data[index-1], nil
 	}
 	return f
 }

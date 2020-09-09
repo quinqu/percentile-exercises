@@ -1,4 +1,4 @@
-package main
+package percentile
 
 import (
 	"fmt"
@@ -10,10 +10,10 @@ func TestGeneratePercentile(t *testing.T) {
 		fn percentile
 		p  uint
 	}{
-		{generatePercentileFunction(.05), 20},
-		{generatePercentileFunction(.3), 35},
-		{generatePercentileFunction(.4), 35},
-		{generatePercentileFunction(.5), 40},
+		{generatePercentileFunction(.05), 15},
+		{generatePercentileFunction(.3), 20},
+		{generatePercentileFunction(.4), 20},
+		{generatePercentileFunction(.5), 35},
 		{generatePercentileFunction(1.0), 50},
 	}
 	data := []uint{15, 20, 35, 40, 50}
@@ -31,12 +31,12 @@ func TestGeneratePercentileTwo(t *testing.T) {
 		fn percentile
 		p  uint
 	}{
-		{generatePercentileFunction(.25), 8},
-		{generatePercentileFunction(.5), 10},
-		{generatePercentileFunction(.75), 16},
+		{generatePercentileFunction(.25), 7},
+		{generatePercentileFunction(.5), 8},
+		{generatePercentileFunction(.75), 15},
 		{generatePercentileFunction(1.0), 20},
 	}
-	data := []uint{3, 6, 7, 8, 8, 9, 10, 13, 15, 16, 20}
+	data := []uint{3, 6, 7, 8, 8, 10, 13, 15, 16, 20}
 	for _, test := range tests {
 		t.Run(fmt.Sprintf("PASS"), func(t *testing.T) {
 			if output, _ := test.fn(data); output != test.p {
