@@ -31,13 +31,13 @@ func main() {
 	rand := rand.New(rand.NewSource(seed))
 	var f percentile
 	f = func(data []uint) uint {
+		sort.Sort(seedData(data))
 		length := len(data)
 		n := .9 * float32(length)
 		index := uint(math.Ceil(float64(n)))
 		return data[index]
 	}
-	data := seedData(createData(rand, 10000))
-	sort.Sort(data)
+	data := createData(rand, 10000)
 	p90 := f(data)
 	fmt.Println(p90)
 }
