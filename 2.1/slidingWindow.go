@@ -36,9 +36,9 @@ func NewWindowedPercentileCalculator(x float32, window uint) (PercentileCalculat
 }
 
 func (r *R) RecordValue(val uint) {
-
-	r.data = append(r.data, val)
 	sort.Sort(seedData(r.data))
+	r.data = append(r.data, val)
+	
 }
 
 func (r *R) GetPercentile() uint {
@@ -70,16 +70,16 @@ func main() {
 	rand := rand.New(rand.NewSource(seed))
 
 	var p PercentileCalculator
-	p, err := NewWindowedPercentileCalculator(.5, 10)
+	p, err := NewWindowedPercentileCalculator(.95, 100)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	data := createData(rand, 100)
+	data := createData(rand, 1000)
 	for i := range data {
 		p.RecordValue(data[i])
-		if i%10 == 0 {
+		if i%100 == 0 {
 			fmt.Println(p.GetPercentile())
 		}
 	}
