@@ -19,14 +19,15 @@ func TestGeneratePercentile(t *testing.T) {
 	data := []uint{15, 20, 35, 40, 50}
 	for _, test := range tests {
 		t.Run(fmt.Sprintf("PASS"), func(t *testing.T) {
-			if output, _ := test.fn(data); output != test.p {
+			if output, err := test.fn(data); output != test.p || err != nil {
 				t.Errorf("Fail expected: %v", test.p)
 			}
+
 		})
 	}
 }
 
-func TestGeneratePercentileTwo(t *testing.T) {
+func TestGeneratePercentileSecond(t *testing.T) {
 	var tests = []struct {
 		fn percentile
 		p  uint
