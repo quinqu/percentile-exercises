@@ -22,10 +22,8 @@ type R struct {
 
 type seedData []uint
 
-func (a seedData) Len() int { return len(a) }
-
-func (a seedData) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
-
+func (a seedData) Len() int           { return len(a) }
+func (a seedData) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 func (a seedData) Less(i, j int) bool { return a[i] < a[j] }
 
 // x is the percentile, e.g. .95 or .999. error if ! 0 < x <= 1
@@ -40,13 +38,12 @@ func NewWindowedPercentileCalculator(x float32, window uint) (PercentileCalculat
 func (r *R) RecordValue(val uint) {
 
 	r.data = append(r.data, val)
-	sort.Sort(r.data)
+	sort.Sort(seedData(r.data))
 }
 
 func (r *R) GetPercentile() uint {
 	var n float32
 	var index uint
-
 	length := uint(len(r.data))
 	offset := length - 1 - r.window
 
@@ -79,7 +76,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	data := seedData(createData(rand, 100))
+	data := createData(rand, 100)
 	for i := range data {
 		p.RecordValue(data[i])
 		if i%10 == 0 {

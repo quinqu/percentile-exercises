@@ -14,8 +14,8 @@ var (
 )
 
 func TestRecordValue(t *testing.T) {
-	r := &R{data: seedData([]uint{}), percentile: .95, window: 100}
-	expectedLength := 1
+	r := &R{data: seedData([]uint{0, 1, 2, 3}), percentile: .95, window: 100}
+	expectedLength := len(r.data) + 1
 	r.RecordValue(101)
 	if len(r.data) != expectedLength {
 		t.Errorf("RecordValue: expected length: %v, actual: %v", expectedLength, len(r.data))
@@ -26,15 +26,15 @@ func TestRecordValue(t *testing.T) {
 func TestGetPercentile(t *testing.T) {
 	var expected = []uint{0, 48, 98, 148, 198, 248}
 	var result uint
-
-	rData := seedData(createData(testRand, 300))
+	testData := createData(testRand, 300)
 	r := &R{data: seedData([]uint{}), percentile: .95, window: 50}
-	sort.Sort(rData)
+	// sorting prior for the sake of easier testing
+	sort.Sort(seedData(testData))
 	curr := 0
 
 	t.Run(fmt.Sprintf("PASS"), func(t *testing.T) {
-		for i := range rData {
-			r.RecordValue(rData[i])
+		for i := range testData {
+			r.RecordValue(testData[i])
 			if i%50 == 0 {
 				result = r.GetPercentile()
 				if expected[curr] != result {
@@ -56,6 +56,6 @@ func TestNewWindowedPercentileCalc(t *testing.T) {
 
 	var _, secErr = NewWindowedPercentileCalculator(.90, 100)
 	if secErr != nil {
-		t.Errorf("Unexpected error %v", secErr)
+		t.Errorf("Unexpected error: %v", secErr)
 	}
 }
