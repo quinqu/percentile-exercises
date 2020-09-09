@@ -10,11 +10,11 @@ func TestGeneratePercentile(t *testing.T) {
 		fn percentile
 		p  uint
 	}{
-		{generatePercentileFunction(.05), 15},
-		{generatePercentileFunction(.3), 20},
-		{generatePercentileFunction(.4), 20},
-		{generatePercentileFunction(.5), 35},
-		{generatePercentileFunction(1.0), 50},
+		{generatePercentile(.05), 15},
+		{generatePercentile(.3), 20},
+		{generatePercentile(.4), 20},
+		{generatePercentile(.5), 35},
+		{generatePercentile(1.0), 50},
 	}
 	data := []uint{15, 20, 35, 40, 50}
 	for _, test := range tests {
@@ -31,10 +31,10 @@ func TestGeneratePercentileTwo(t *testing.T) {
 		fn percentile
 		p  uint
 	}{
-		{generatePercentileFunction(.25), 7},
-		{generatePercentileFunction(.5), 8},
-		{generatePercentileFunction(.75), 15},
-		{generatePercentileFunction(1.0), 20},
+		{generatePercentile(.25), 7},
+		{generatePercentile(.5), 8},
+		{generatePercentile(.75), 15},
+		{generatePercentile(1.0), 20},
 	}
 	data := []uint{3, 6, 7, 8, 8, 10, 13, 15, 16, 20}
 	for _, test := range tests {
@@ -48,7 +48,7 @@ func TestGeneratePercentileTwo(t *testing.T) {
 
 func TestGenerateInvalidInput(t *testing.T) {
 	var fn percentile
-	fn = generatePercentileFunction(1.1)
+	fn = generatePercentile(1.1)
 	data := []uint{3, 9, 10, 13, 15, 16, 20}
 
 	if _, err := fn(data); err == nil {

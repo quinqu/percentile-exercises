@@ -3,25 +3,11 @@ package percentile
 import (
 	"errors"
 	"math"
-	"math/rand"
 )
-
-func createData(rand *rand.Rand, n uint) []uint {
-	data := make([]uint, n)
-	for i := uint(0); i < n; i++ {
-		data[i] = i
-	}
-	rand.Shuffle(int(n), func(i, j int) { data[i], data[j] = data[j], data[i] })
-	return data
-}
 
 type percentile func([]uint) (uint, error)
 
-func main() {
-
-}
-
-func generatePercentileFunction(x float32) percentile {
+func generatePercentile(x float32) percentile {
 
 	f := func(data []uint) (uint, error) {
 		if x > 1.0 || x < 0.0 {
