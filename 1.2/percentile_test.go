@@ -63,7 +63,7 @@ func TestGenerateInvalidInput(t *testing.T) {
 func mustGeneratePercentile(x float32) percentile {
 	v, err := generatePercentile(x)
 	if err != nil {
-		panic("Error: percentile is nil, percentile cannot be nil")
+		panic("Unexpected error: generatePercentile: " + err.Error())
 	}
 	return v
 }
