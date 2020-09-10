@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"math"
@@ -14,42 +13,48 @@ type PercentileCalculator interface {
 	GetPercentile() uint
 }
 
-type R struct {
-	data       seedData
+type PercentileValues struct {
+	data       sortData
 	percentile float32
 	window     uint
 }
 
-type seedData []uint
+type sortData []uint
 
-func (a seedData) Len() int           { return len(a) }
-func (a seedData) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a seedData) Less(i, j int) bool { return a[i] < a[j] }
+func (a sortData) Len() int           { return len(a) }
+func (a sortData) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a sortData) Less(i, j int) bool { return a[i] < a[j] }
 
 // x is the percentile, e.g. .95 or .999. error if ! 0 < x <= 1
 // window is the number of data points to keep before letting the oldest fall out of scope
 func NewWindowedPercentileCalculator(x float32, window uint) (PercentileCalculator, error) {
 	if x > 1.0 || x < 0.0 {
-		return nil, errors.New("generatePercentile: %q out of range 0 <= x <= 1")
+		return nil, fmt.Errorf("generatePercentile: %v out of range 0 <= x <= 1", x)
 	}
-	return &R{percentile: x, window: window}, nil
+	return &PercentileValues{percentile: x, window: window, data: []uint{}}, nil
 }
 
-func (r *R) RecordValue(val uint) {
+func (r *PercentileValues) RecordValue(val uint) {
 	r.data = append(r.data, val)
 }
 
-func (r *R) GetPercentile() uint {
+func (r *PercentileValues) GetPercentile() uint {
 	var n float32
 	var index uint
+	currentWindow := make([]uint, r.window)
 
-	sort.Sort(r.data)
+	length := uint(len(r.data))
+	offset := length - r.window
 
-	n = r.percentile * float32(len(r.data))
+	if length <= r.window {
+		offset = 0
+	}
+	copy(currentWindow, r.data[offset:length])
+
+	sort.Sort(sortData(currentWindow))
+	n = r.percentile * float32(len(r.data[offset:length]))
 	index = uint(math.Ceil(float64(n)))
-	perc := r.data[index-1]
-	r.data = seedData([]uint{})
-	return perc
+	return currentWindow[index-1]
 }
 
 func createData(rand *rand.Rand, n uint) []uint {
