@@ -1,7 +1,7 @@
 package percentile
 
 import (
-	"errors"
+	"fmt"
 	"math"
 	"sort"
 )
@@ -10,7 +10,7 @@ type percentile func([]uint) uint
 
 func generatePercentile(x float32) (percentile, error) {
 	if x > 1.0 || x < 0.0 {
-		return nil, errors.New("generatePercentile: %q out of range 0 <= x <= 1")
+		return nil, fmt.Errorf("generatePercentile: %v out of range 0 <= x <= 1", x)
 	}
 
 	f := func(data []uint) uint {
